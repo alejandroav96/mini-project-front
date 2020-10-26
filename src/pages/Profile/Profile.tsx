@@ -11,6 +11,7 @@ import Edit from '@material-ui/icons/Edit';
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { Loading } from '../../components/Loading/Loading';
 import { toBase64 } from '../../helpers/base64';
 import { Auth } from "../../helpers/providers/auth";
 import { INITIAL_USER, User } from "../../models/User";
@@ -21,6 +22,7 @@ export interface ProfileProps { }
 
 export const Profile: React.FC<ProfileProps> = () => {
     const [edit, setEdit] = useState<Boolean>(false);
+    const [loading, setLoading] = useState<Boolean>(false);
     const [error, setError] = useState(null);
     const [user, setUser] = useState<User>(INITIAL_USER);
     const [call, setCall] = useState(false);
@@ -38,8 +40,10 @@ export const Profile: React.FC<ProfileProps> = () => {
 
     const getData = () => {
         if (!call) {
+            setLoading(true);
             ProfileService.get().then((res: any) => {
                 setUser(res.data);
+                setLoading(false);
             }).catch(error => {
                 setError(error.message);
             })
@@ -71,38 +75,44 @@ export const Profile: React.FC<ProfileProps> = () => {
     }
 
     if (!edit) {
-        return (
-            <div className="container-card-wrapper">
-                <Card className="container-card">
-                    <CardHeader
-                        avatar={
-                            <Avatar aria-label={user.name}>
-                                {user.name[0]}
-                            </Avatar>
-                        }
-                        action={
-                            <IconButton aria-label="settings" onClick={changeEdit}>
-                                <Edit />
-                            </IconButton>
-                        }
-                        title={user.name}
-                        subheader={user.email}
-                    />
-                    {user.image && (
-                        <CardMedia
-                            className="image"
-                            image={user.image}
+        if (loading) {
+            return (
+                <Loading />
+            )
+        } else {
+            return (
+                <div className="container-card-wrapper">
+                    <Card className="container-card">
+                        <CardHeader
+                            avatar={
+                                <Avatar aria-label={user.name}>
+                                    {user.name[0]}
+                                </Avatar>
+                            }
+                            action={
+                                <IconButton aria-label="settings" onClick={changeEdit}>
+                                    <Edit />
+                                </IconButton>
+                            }
                             title={user.name}
+                            subheader={user.email}
                         />
-                    )}
-                    <CardContent>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {user.description}
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </div>
-        )
+                        {user.image && (
+                            <CardMedia
+                                className="image"
+                                image={user.image}
+                                title={user.name}
+                            />
+                        )}
+                        <CardContent>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {user.description}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </div>
+            )
+        }
     } else {
         return (
             <Container maxWidth="sm" className="container-profile">

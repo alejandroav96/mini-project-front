@@ -38,7 +38,7 @@ export const ListUsers: React.FC<ListUsersProps> = props => {
                 <ListItemText
                     primary={user.name}
                     secondary={<React.Fragment>
-                        {user.description.length> 200 ? user.description.substr(0,200)+"..." : user.description}
+                        {user.description.length > 200 ? user.description.substr(0, 200) + "..." : user.description}
                     </React.Fragment>} />
             </ListItem>
             <Divider variant="inset" component="li" />
@@ -50,8 +50,8 @@ export const ListUsers: React.FC<ListUsersProps> = props => {
             >
                 <DialogTitle id="alert-dialog-title">{user.name} - {user.email}</DialogTitle>
                 <DialogContent>
+                    {user.image ? <img src={user.image} alt={user.name} className="image-dialog" /> : <b></b>}
                     <DialogContentText id="alert-dialog-description">
-                        {user.image ? <img src={user.image} alt={user.name} className="image-dialog" /> : <b></b>}
                         {user.description}
                     </DialogContentText>
                 </DialogContent>

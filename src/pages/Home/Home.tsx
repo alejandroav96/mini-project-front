@@ -1,6 +1,7 @@
 import List from '@material-ui/core/List';
 import React, { useEffect, useState } from "react";
 import { ListUsers } from "../../components/ListUsers/ListUsers";
+import { Loading } from '../../components/Loading/Loading';
 import { User } from "../../models/User";
 import { UsersService } from "../../services/users";
 import './Home.scss';
@@ -26,12 +27,17 @@ export const Home: React.FC<HomeProps> = () => {
             <ListUsers key={user.uid} user={user}></ListUsers>
         )
     )
-
-    return (
-        <div>
-            <List className="list">
-                {generateList}
-            </List>
-        </div>
-    )
+    
+    if (users){
+        return (
+            <div>
+                <List className="list">
+                    {generateList}
+                </List>
+            </div>
+        )
+    } else {
+        return (<Loading />)
+    }
+    
 }
