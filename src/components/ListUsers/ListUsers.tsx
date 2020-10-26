@@ -38,7 +38,7 @@ export const ListUsers: React.FC<ListUsersProps> = props => {
                 <ListItemText
                     primary={user.name}
                     secondary={<React.Fragment>
-                        {user.description.length > 200 ? user.description.substr(0, 200) + "..." : user.description}
+                        {(user.description && user.description.length > 200) ? user.description.substr(0, 200) + "..." : user.description}
                     </React.Fragment>} />
             </ListItem>
             <Divider variant="inset" component="li" />
