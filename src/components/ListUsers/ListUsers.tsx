@@ -48,7 +48,7 @@ export const ListUsers: React.FC<ListUsersProps> = props => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{user.name} - {user.email}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{user.name}</DialogTitle>
                 <DialogContent>
                     {user.image ? <img src={user.image} alt={user.name} className="image-dialog" /> : <b></b>}
                     <DialogContentText id="alert-dialog-description">
